@@ -49,17 +49,37 @@ namespace JaMoin.Controllers
                 return Redirect("~/Identity/Account/Login");
             }
 
-            var emptyModel = new UebersichtViewModel();
+            var uebersichtModel = new UebersichtViewModel();
 
-            emptyModel.AllUsers = _context.GetAllUsernames();
-            emptyModel.AllTransactions = _context.GetAllTransactions();
+            //Allen Usern ihre Schulden zuweisen
+            var allUsers = _context.GetAllUsernames();
+            uebersichtModel.AllUsers = new List<UserDebtModel>();
 
-            return View("Uebersicht", emptyModel);
+            foreach(var user in allUsers) 
+            {
+                var userItem = new UserDebtModel()
+                {
+                    Username = user,
+                    Debt = _context.GetSchuldenSummeZuUser(user)
+                };
+
+                uebersichtModel.AllUsers.Add(userItem);   
+            }
+            //Gesamt-geliehener Betrag errechnen
+            uebersichtModel.GesamtgeliehenerBetrag = _context.GetGesamtGeliehenBetrag();
+            //Alle Transaktionen holen
+            uebersichtModel.AllTransactions = _context.GetAllTransactions();
+
+            return View("Uebersicht", uebersichtModel);
         }
 
         public IActionResult CreateTransaction()
         {
-            //TODO alle User lesen
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Redirect("~/Identity/Account/Login");
+            }
+
             var viewModel = new TransactionCreateViewModel();
 
             viewModel.AllUsernames = _context.GetAllUsernames(); ;

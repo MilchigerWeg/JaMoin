@@ -24,16 +24,19 @@ namespace JaMoin.Controllers
         {
             var gesamtbetrag = Convert.ToDouble(transaction.GesamterBetrag, new CultureInfo("en-US"));
 
+            //negativer Beitrag angegeben
             if(gesamtbetrag <= 0)
             {
                 return StatusCode(406);
             }
 
+            //Man kann sich selbst kein geld leihen
             if(transaction.GeldEmpfaenger == transaction.GeldLeiher)
             {
                 return StatusCode(409);
             }
 
+            //neues Model anlegen
             var newTransModel = new TransactionModel()
             {
                 Kommentar = transaction.Kommentar,
@@ -49,9 +52,10 @@ namespace JaMoin.Controllers
                 }
             };
 
+            //Model saven
             _context.Transactions.Add(newTransModel);
-
             _context.SaveChanges();
+            
             return StatusCode(200);
         }
     }

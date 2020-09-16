@@ -3,6 +3,7 @@
 
 // Write your JavaScript code.
 
+//Transaction auf DB speichern
 var saveTransaction = function () {   
 
     if (!isValidValues()) {
@@ -25,6 +26,7 @@ var saveTransaction = function () {
     });
 }
 
+//neues JSON-Model anlegen
 var getNewCreateModel = function () {
     var kommentar = $("#Kommentar").val();
     var gesamtBetrag = $("#Gesamtbetrag").val();
@@ -42,9 +44,6 @@ var getNewCreateModel = function () {
 }
 
 var isValidValues = function () {
-
-    console.log("isValid called");
-
     //Betrag muss positiv sein
     var gesamtBetrag = $("#Gesamtbetrag").val();
     if (isNaN(gesamtBetrag) || gesamtBetrag <= 0) {

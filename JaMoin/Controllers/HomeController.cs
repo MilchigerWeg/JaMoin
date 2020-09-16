@@ -20,12 +20,6 @@ namespace JaMoin.Controllers
         {
             _context = context;
         }
-
-        //public HomeController(ILogger<HomeController> logger)
-        //{
-        //    _logger = logger;
-        //}
-
         public IActionResult Index()
         {
             return View();

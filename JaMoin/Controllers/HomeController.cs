@@ -44,42 +44,27 @@ namespace JaMoin.Controllers
 
         public IActionResult Uebersicht()
         {
-            
             if (!User.Identity.IsAuthenticated)
             {
                 return Redirect("~/Identity/Account/Login");
             }
 
-            var emptyModel = new List<TransactionModel>();
-            emptyModel.Add(new TransactionModel()
-            {
-                Id = Guid.NewGuid().ToString(),
-                GeldgeberEmail = "123@mail.de",
-                GesamtBetrag = 12.12,
-                Kommentar = "testüberweisung",
-                Schulden = new List<SchuldenModel>()
-                {
-                    new SchuldenModel()
-                    {
-                        Id = Guid.NewGuid().ToString(),
-                        Betrag = 12.12,
-                        SchuldnerEmail = "schulden@mail.de"
-                    }
-                }
-            }); ;
+            var emptyModel = new UebersichtViewModel();
 
-            
-            var x = _context.Transactions.FirstOrDefault();
-            _context.Transactions.Add(emptyModel.First());
+            emptyModel.AllUsers = _context.GetAllUsernames();
+            emptyModel.AllTransactions = _context.GetAllTransactions();
 
-            _context.SaveChanges();
-
-            return View(emptyModel);
+            return View("Uebersicht", emptyModel);
         }
 
         public IActionResult CreateTransaction()
         {
-            return View("CreateTransaction");
+            //TODO alle User lesen
+            var viewModel = new TransactionCreateViewModel();
+
+            viewModel.AllUsernames = _context.GetAllUsernames(); ;
+
+            return View("CreateTransaction", viewModel);
         }
 
     }

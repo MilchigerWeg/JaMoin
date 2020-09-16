@@ -11,6 +11,5 @@ namespace JaMoin.Models
         public double GesamtBetrag { get; set; }
         public string GeldgeberEmail { get; set; }
         public List<SchuldenModel> Schulden { get; set; }
-
     }
 }

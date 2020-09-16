@@ -1,47 +1,38 @@
-﻿@model JaMoin.Models.TransactionModel
+﻿@model JaMoin.Models.TransactionCreateViewModel
 
 @{
     ViewData["Title"] = "CreateTransaction";
 }
 
-<h1>CreateTransaction</h1>
+<h1>Neue Transaktion</h1>
 
-<h4>TransactionModel</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="CreateTransaction">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Kommentar" class="control-label"></label>
-                <input asp-for="Kommentar" class="form-control" />
-                <span asp-validation-for="Kommentar" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GesamtBetrag" class="control-label"></label>
-                <input asp-for="GesamtBetrag" class="form-control" />
-                <span asp-validation-for="GesamtBetrag" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <!-- TODO Dropdown aller User -->
-                <label asp-for="GeldgeberEmail" class="control-label"></label>
-                <input asp-for="GeldgeberEmail" class="form-control" />
-                <span asp-validation-for="GeldgeberEmail" class="text-danger"></span>
-            </div>
 
-            <!-- TODO Liste an Schuldnern auswählbar machen-->
-
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+<div>
+    <div class="row">
+        <div class="col-4">Geldgeber</div>
+        <div class="col-8">
+            @Html.DropDownList("Geldleiher", Model.AllUsernames.Select(item => new SelectListItem
+            {
+                Value = item,
+                Text = item
+            }))
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">Kommentar</div>
+        <div class="col-8">
+            <input type="text" placeholder="Grund des Leihens">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">Gesamtbetrag</div>
+        <div class="col-8">
+            <input type="number" placeholder="Gesamtbetrag" min="0">
+        </div>
+    </div>
+    <div>
+        <!--TODO beteiligte Personen-->
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<input type="button" value="Save" id="SaveButton" />

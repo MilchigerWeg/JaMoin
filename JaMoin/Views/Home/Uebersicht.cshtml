@@ -1,47 +1,53 @@
-﻿@model IEnumerable<JaMoin.Models.TransactionModel>
+﻿@model JaMoin.Models.UebersichtViewModel
 
 @{
     ViewData["Title"] = "Uebersicht";
 }
 
-<h1>Uebersicht</h1>
+<h1>Alle Transaktionen</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a href="CreateTransaction">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
+            @foreach (var user in Model.AllUsers)
+            {
             <th>
-                @Html.DisplayNameFor(model => model.Kommentar)
+                @user
+            </th>
+            }
+            <th>
+                Kommentar
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.GesamtBetrag)
+                Gesamtbetrag
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GeldgeberEmail)
-            </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.AllTransactions) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Kommentar)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GesamtBetrag)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GeldgeberEmail)
-            </td>
-            <td>
-                @foreach (var schuldner in item.Schulden)
-                {
-                    @(schuldner.SchuldnerEmail + ":" + schuldner.Betrag )
-                }
-            </td>
+            @foreach (var user in Model.AllUsers)
+            {
+                <th>
+                    @if(item.Schulden!= null && item.Schulden.Any(s => s.SchuldnerEmail == user))
+                    {
+                        @("-" + @item.Schulden.First(s => s.SchuldnerEmail == user).Betrag)
+                    }
+                    @if(item.GeldgeberEmail == user)
+                    {
+                        @(item.GesamtBetrag)
+                    }
+                </th>
+            }
+            <th>
+                @item.Kommentar
+            </th>
+            <th>
+                @item.GesamtBetrag
+            </th>
         </tr>
 }
     </tbody>

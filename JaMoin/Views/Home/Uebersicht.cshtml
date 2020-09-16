@@ -15,14 +15,14 @@
             @foreach (var user in Model.AllUsers)
             {
             <th>
-                @(user.Username + " (" + user.Debt + ")" )
+                @(user.Username + " (" + user.Debt.ToString("C2") + ")" )
             </th>
             }
             <th>
                 Kommentar
             </th>
             <th>
-                Gesamtbetrag (@Model.GesamtgeliehenerBetrag)
+                Gesamtbetrag (@Model.GesamtgeliehenerBetrag.ToString("C2"))
             </th>
         </tr>
     </thead>
@@ -34,11 +34,11 @@
                 <th>
                     @if(item.Schulden!= null && item.Schulden.Any(s => s.SchuldnerEmail == user.Username))
                     {
-                        @("-" + @item.Schulden.First(s => s.SchuldnerEmail == user.Username).Betrag)
+                        @("-" + @item.Schulden.First(s => s.SchuldnerEmail == user.Username).Betrag.ToString("C2"))
                     }
                     @if(item.GeldgeberEmail == user.Username)
                     {
-                        @(item.GesamtBetrag)
+                        @(item.GesamtBetrag.ToString("C2"))
                     }
                 </th>
             }
@@ -46,7 +46,7 @@
                 @item.Kommentar
             </th>
             <th>
-                @item.GesamtBetrag
+                @item.GesamtBetrag.ToString("C2")
             </th>
         </tr>
 }

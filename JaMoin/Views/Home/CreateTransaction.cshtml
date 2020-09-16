@@ -21,18 +21,29 @@
     <div class="row">
         <div class="col-4">Kommentar</div>
         <div class="col-8">
-            <input type="text" placeholder="Grund des Leihens">
+            <input type="text" placeholder="Grund des Leihens" id="Kommentar">
         </div>
     </div>
     <div class="row">
         <div class="col-4">Gesamtbetrag</div>
         <div class="col-8">
-            <input type="number" placeholder="Gesamtbetrag" min="0">
+            <input type="number" placeholder="Gesamtbetrag" min="0" id="Gesamtbetrag">
         </div>
     </div>
     <div>
         <!--TODO beteiligte Personen-->
+        <div class="row">
+            <div class="col-4">Geliehen an</div>
+            <div class="col-8">
+                @Html.DropDownList("GeliehenAn", Model.AllUsernames.Select(item => new SelectListItem
+                {
+                    Value = item,
+                    Text = item
+                }))
+            </div>
+        </div>
     </div>
-</div>
+        
 
-<input type="button" value="Save" id="SaveButton" />
+    <input type="button" value="Save" id="SaveButton" />
+</div>

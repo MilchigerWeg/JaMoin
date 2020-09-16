@@ -1,0 +1,48 @@
+﻿@model IEnumerable<JaMoin.Models.TransactionModel>
+
+@{
+    ViewData["Title"] = "Uebersicht";
+}
+
+<h1>Uebersicht</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Kommentar)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GesamtBetrag)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GeldgeberEmail)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Kommentar)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GesamtBetrag)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GeldgeberEmail)
+            </td>
+            <td>
+                @foreach (var schuldner in item.Schulden)
+                {
+                    @(schuldner.SchuldnerEmail + ":" + schuldner.Betrag )
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

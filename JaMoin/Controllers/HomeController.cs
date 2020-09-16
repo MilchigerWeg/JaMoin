@@ -50,24 +50,29 @@ namespace JaMoin.Controllers
                 return Redirect("~/Identity/Account/Login");
             }
 
-            //var emptyModel = new List<TransactionModel>();
-            //emptyModel.Add(new TransactionModel()
-            //{
-            //    GeldgeberEmail = "123@mail.de",
-            //    GesamtBetrag = 12.12,
-            //    Kommentar = "testüberweisung",
-            //    Schulden = new List<SchuldenModel>()
-            //    {
-            //        new SchuldenModel()
-            //        {
-            //            Betrag = 12.12,
-            //            SchuldnerEmail = "schulden@mail.de"
-            //        }
-            //    }
-            //});
+            var emptyModel = new List<TransactionModel>();
+            emptyModel.Add(new TransactionModel()
+            {
+                Id = Guid.NewGuid().ToString(),
+                GeldgeberEmail = "123@mail.de",
+                GesamtBetrag = 12.12,
+                Kommentar = "testüberweisung",
+                Schulden = new List<SchuldenModel>()
+                {
+                    new SchuldenModel()
+                    {
+                        Id = Guid.NewGuid().ToString(),
+                        Betrag = 12.12,
+                        SchuldnerEmail = "schulden@mail.de"
+                    }
+                }
+            }); ;
 
-            var x = _context;
-            //_dbContext.Add(emptyModel.First());
+            
+            var x = _context.Transactions.FirstOrDefault();
+            _context.Transactions.Add(emptyModel.First());
+
+            _context.SaveChanges();
 
             return View(emptyModel);
         }
